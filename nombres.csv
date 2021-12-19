@@ -1,0 +1,11 @@
+usuario1@firstcommit.com;Pedro Pérez;usuario1;
+usuario2@firstcommit.com;Juan López;usuario2;
+usuario3@firstcommit.com;Fernando Alonso;usuario3;
+usuario4@firstcommit.com;Carlos Martín;usuario4;
+usuario5@firstcommit.com;Sara González;usuario5;
+usuario6@firstcommit.com;José Del Caso;usuario6;
+mailnovalido;Pedro Pérez;usuario1;
+usuario1@firstcommit.com;Pedro Pérez;usuario1;
+;Pedro Pérez;usuario1;
+usuario1@firstcommit.com;;usuario1;
+usuario1@firstcommit.com;Pedro Pérez; ;
