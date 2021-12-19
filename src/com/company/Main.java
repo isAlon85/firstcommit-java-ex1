@@ -9,17 +9,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
-
+    //Elegimos el separador del csv, en mi caso ;
     public static final String SEPARATOR = ";";
 
     public static void main(String[] args) {
         ArrayList<User> usersSaved;
+
         usersSaved = addUsersFromCSV("nombres.csv");
-        System.out.println(usersSaved);
+        System.out.println("Saved array data:\n" + usersSaved);
     }
 
     public static ArrayList<User> addUsersFromCSV(String file){
         ArrayList<User> users = new ArrayList<>();
+        int processedLines = 0;
+        int errorLines = 0;
         int actualLine = 1;
 
         BufferedReader readBuffer = null;
@@ -44,12 +47,16 @@ public class Main {
                 }
                 if (fields[0].isBlank() || fields[1].isBlank() || fields[2].isBlank()) {
                     System.err.println("Line " + actualLine + " is wrong");
+                    errorLines++;
                 } else if (!validateMail(fields[0])) {
-                    System.err.println("email " + fields[0] + " in line " + actualLine + " is not a proper email");
+                    System.err.println("email " + fields[0] + " in line " + actualLine + " is not a valid email");
+                    errorLines++;
                 } else if (duplicatedMail){
                     System.err.println("email " + fields[0] + " in line " + actualLine + " is duplicated");
+                    errorLines++;
                 }else {
                     users.add(user);
+                    processedLines++;
                 }
 
                 // Volver a leer otra línea del fichero
@@ -68,6 +75,8 @@ public class Main {
                 }
             }
         }
+        System.out.println("\nProcessed lines :" + processedLines);
+        System.out.println("Error lines :" + errorLines + "\n");
         return users;
     }
 
