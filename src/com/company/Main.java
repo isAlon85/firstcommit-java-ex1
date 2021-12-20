@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,27 +37,30 @@ public class Main {
             while (line != null) {
                 // Separar la línea leída con el separador definido previamente
                 String[] fields = line.split(SEPARATOR);
-                User user = new User(fields[0], fields[1], fields[2]);
-                // Filtar emails duplicados y lineas con campos en blanco
-                boolean duplicatedMail = false;
-                for (User value : users) {
-                    if (Objects.equals(value.getEmail(), user.getEmail())) {
-                        duplicatedMail = true;
-                        break;
-                    }
-                }
-                if (fields[0].isBlank() || fields[1].isBlank() || fields[2].isBlank()) {
+                if (Arrays.stream(fields).count() != 3 ||
+                        fields[0].isBlank() || fields[1].isBlank() || fields[2].isBlank()) {
                     System.err.println("Line " + actualLine + " is wrong");
                     errorLines++;
-                } else if (!validateMail(fields[0])) {
-                    System.err.println("email " + fields[0] + " in line " + actualLine + " is not a valid email");
-                    errorLines++;
-                } else if (duplicatedMail){
-                    System.err.println("email " + fields[0] + " in line " + actualLine + " is duplicated");
-                    errorLines++;
-                }else {
-                    users.add(user);
-                    processedLines++;
+                } else {
+                    User user = new User(fields[0], fields[1], fields[2]);
+                    // Filtar emails duplicados y líneas con campos en blanco
+                    boolean duplicatedMail = false;
+                    for (User value : users) {
+                        if (Objects.equals(value.getEmail(), user.getEmail())) {
+                            duplicatedMail = true;
+                            break;
+                        }
+                    }
+                    if (!validateMail(fields[0])) {
+                        System.err.println("email " + fields[0] + " in line " + actualLine + " is not a valid email");
+                        errorLines++;
+                    } else if (duplicatedMail) {
+                        System.err.println("email " + fields[0] + " in line " + actualLine + " is duplicated");
+                        errorLines++;
+                    } else {
+                        users.add(user);
+                        processedLines++;
+                    }
                 }
 
                 // Volver a leer otra línea del fichero
