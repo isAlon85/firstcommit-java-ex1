@@ -39,7 +39,7 @@ public class Main {
                 String[] fields = line.split(SEPARATOR);
                 if (Arrays.stream(fields).count() != 3 ||
                         fields[0].isBlank() || fields[1].isBlank() || fields[2].isBlank()) {
-                    System.err.println("Line " + actualLine + " is wrong");
+                    System.err.println("Line " + actualLine + " '" + line + "' is wrong");
                     errorLines++;
                 } else {
                     User user = new User(fields[0], fields[1], fields[2]);
